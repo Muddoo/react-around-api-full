@@ -1,16 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-const cors = require('cors')
+const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
-const { PORT = 3001 } = process.env;
+const { PORT = 3001, MONGO_PASS } = process.env;
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const { createUser, login } = require('./controller/users')
 const auth = require('./middlewares/auth')
 
-mongoose.connect('mongodb://localhost:27017/aroundb', {
+mongoose.connect(`mongodb+srv://moddoo:${MONGO_PASS}@cluster0.m9haw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
