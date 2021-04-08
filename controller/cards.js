@@ -4,7 +4,7 @@ const handleError = (res, status = 500, err = 'Internal Server Error') => res.st
 
 const getCards = (req, res) => {
   cards.find({})
-    .populate('owner')
+    .populate('likes')
     .then((all) => res.send(all))
     .catch(() => handleError(res));
 };
@@ -34,7 +34,7 @@ const likeCard = (req, res) => {
     $addToSet: { likes: req.user._id },
   }, { new: true })
     .orFail(() => handleError(res, 404, 'Not Found'))
-    .populate('owner')
+    .populate('likes')
     .then((card) => res.send(card))
     .catch((err) => (err.name === 'CastError' ? handleError(res, 400, err.message) : handleError(res)));
 };
@@ -44,7 +44,6 @@ const dislikeCard = (req, res) => {
     $pull: { likes: req.user._id },
   }, { new: true })
     .orFail(() => handleError(res, 404, 'Not Found'))
-    .populate('owner')
     .then((card) => res.send(card))
     .catch((err) => (err.name === 'CastError' ? handleError(res, 400, err.message) : handleError(res)));
 };
