@@ -35,7 +35,7 @@ schema.statics.ownerId = function isOwner(id) {
   return this.findOne({_id: id})
              .then(card => {
                if(!card) return Promise.reject(new Error('Not Found'))
-               return card.owner._id
+               return card.owner
              })
              .catch(err => Promise.reject(err))
 }

@@ -20,9 +20,7 @@ const deleteCard = async (req, res) => {
     const ownerId = await cards.ownerId(req.params.cardId);
     return String(ownerId) === req.user._id ?
         cards.findByIdAndDelete(req.params.cardId)
-          .orFail(() => handleError(res, 404, 'Not Found'))
-          .then(() => res.send({ message: 'Card Deleted' }))
-          .catch((err) => (err.name === 'CastError' ? handleError(res, 400, err.message) : handleError(res))) :
+          .then(() => res.send({ message: 'Card Deleted' })) :
         res.status(400).send({error: 'Not Allowed'})
   } catch (err) {
        err.name === 'Error' ? handleError(res, 404, err.message) : handleError(res, 400, err.message)
@@ -33,19 +31,19 @@ const likeCard = (req, res) => {
   cards.findByIdAndUpdate(req.params.cardId, {
     $addToSet: { likes: req.user._id },
   }, { new: true })
-    .orFail(() => handleError(res, 404, 'Not Found'))
+    .orFail(() => new Error('Not Found'))
     .populate('likes')
     .then((card) => res.send(card))
-    .catch((err) => (err.name === 'CastError' ? handleError(res, 400, err.message) : handleError(res)));
+    .catch((err) => (err.name ? handleError(res, 400, err.message) : handleError(res)));
 };
 
 const dislikeCard = (req, res) => {
   cards.findByIdAndUpdate(req.params.cardId, {
     $pull: { likes: req.user._id },
   }, { new: true })
-    .orFail(() => handleError(res, 404, 'Not Found'))
+    .orFail(() => new Error('Not Found'))
     .then((card) => res.send(card))
-    .catch((err) => (err.name === 'CastError' ? handleError(res, 400, err.message) : handleError(res)));
+    .catch((err) => (err.name ? handleError(res, 400, err.message) : handleError(res)));
 };
 
 module.exports = {
