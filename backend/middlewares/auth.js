@@ -10,8 +10,8 @@ module.exports = async (req, res, next) => {
   try {
     const payload = await jwt.verify(token, 'secret-key');
     req.user = payload;
-    next();
+    return next();
   } catch (err) {
-    next(new UnauthorizedError());
+    return next(new UnauthorizedError());
   }
 };

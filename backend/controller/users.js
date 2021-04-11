@@ -13,7 +13,7 @@ const getUsers = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
   Users.findOne({ email })
-    .orFail(() => new NotFoundError('Incorrect password or email'))
+    .orFail(() => new UnauthorizedError('Incorrect password or email'))
     .select('+password')
     .then(async (user) => {
       const match = await bcrypt.compare(password, user.password);
@@ -43,7 +43,7 @@ const createUser = async (req, res, next) => {
         const { _doc: { password, ...props } } = user;
         res.send({ data: props });
       })
-      .catch((err) => next({ statusCode: 400, message: err.message }));
+      .catch((err) => next({ statusCode: 409, message: err.message }));
   } catch (err) {
     next(err);
   }

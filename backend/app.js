@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFoundError = require('./Error/NotFoundError');
+const rateLimit = require("express-rate-limit");
 
 require('dotenv').config();
 
@@ -23,11 +25,18 @@ mongoose.connect(DATABASEURL, {
   useUnifiedTopology: true,
 });
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
+app.use(limiter);
 app.use(requestLogger);
+
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -47,9 +56,7 @@ app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
-app.use('*', (req, res) => {
-  res.status(404).send({ message: 'Requested resource not found' });
-});
+app.use('*', (req, res, next) => next(new NotFoundError('Requested resource not found')));
 
 app.use(errorLogger);
 app.use(errors());
