@@ -33,12 +33,12 @@ const schema = new mongoose.Schema({
 }, { versionKey: false });
 
 schema.statics.ownerId = function isOwner(id) {
-  return this.findOne({_id: id})
-             .then(card => {
-               if(!card) return Promise.reject(new NotFoundError('Card Not Found'))
-               return card.owner
-             })
-             .catch(err => Promise.reject({ statusCode: err.statusCode || 400, message: err.message }))
-}
+  return this.findOne({ _id: id })
+    .then((card) => {
+      if (!card) return Promise.reject(new NotFoundError('Card Not Found'));
+      return card.owner;
+    })
+    .catch((err) => Promise.reject({ statusCode: err.statusCode || 400, message: err.message }));
+};
 
 module.exports = mongoose.model('card', schema);

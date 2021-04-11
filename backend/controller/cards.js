@@ -18,12 +18,12 @@ const createCard = (req, res, next) => {
 const deleteCard = async (req, res, next) => {
   try {
     const ownerId = await Cards.ownerId(req.params.cardId);
-    return String(ownerId) === req.user._id ?
-        Cards.findByIdAndDelete(req.params.cardId)
-          .then(() => res.send({ message: 'Card Deleted' })) :
-          next(new UnauthorizedError('User Not Allowed'))
+    return String(ownerId) === req.user._id
+      ? Cards.findByIdAndDelete(req.params.cardId)
+        .then(() => res.send({ message: 'Card Deleted' }))
+      : next(new UnauthorizedError('User Not Allowed'));
   } catch (err) {
-       next(err)
+    next(err);
   }
 };
 

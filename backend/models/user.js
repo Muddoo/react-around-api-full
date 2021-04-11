@@ -7,14 +7,14 @@ const schema = new mongoose.Schema({
     required: true,
     minLength: 2,
     maxLength: 30,
-    default: "Jacques Cousteau"
+    default: 'Jacques Cousteau',
   },
   about: {
     type: String,
     required: true,
     minLength: 2,
     maxLength: 30,
-    default: "Explorer"
+    default: 'Explorer',
   },
   avatar: {
     type: String,
@@ -23,7 +23,7 @@ const schema = new mongoose.Schema({
       validator: (v) => /https?:\/\/(www\.)?[\w\]\[\/.~:?%#@!$&'()*+,;=-]+\..+/.test(v),
       message: (props) => `${props.value} is not a valid URL!`,
     },
-    default: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg"
+    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
   },
   email: {
     type: String,
@@ -38,8 +38,8 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 8,
-    select: false
-  }
+    select: false,
+  },
 }, { versionKey: false });
 
 module.exports = mongoose.model('user', schema);
