@@ -36,8 +36,8 @@ function App() {
     const history = useHistory()
 
     const api = new Api({
-        // baseUrl:'https://boiling-scrubland-25608.herokuapp.com',
-        baseUrl:'http://localhost:3001',
+        baseUrl:'https://boiling-scrubland-25608.herokuapp.com',
+        // baseUrl:'http://localhost:3001',
         options: {
           headers: {
             authorization: `Bearer ${token}`,
