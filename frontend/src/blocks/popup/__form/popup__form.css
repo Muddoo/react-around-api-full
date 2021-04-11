@@ -1,0 +1,17 @@
+.popup__form {
+    position: relative;
+    width: 430px;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    opacity: var(--opacity);
+    transform: var(--scale);
+    transition: opacity 0s,transform .3s;
+}
+
+@media only screen and (max-width: 570px) {
+    .popup__form {
+        width: 282px;
+    }
+}

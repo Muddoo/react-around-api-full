@@ -1,0 +1,6 @@
+.popup__field_border_red {
+    border-bottom: 1px solid rgba(255 0 0 / 1);
+}
+.popup__field_border_red:focus {
+    border-bottom: 3px solid rgba(255 0 0 / 1);
+}

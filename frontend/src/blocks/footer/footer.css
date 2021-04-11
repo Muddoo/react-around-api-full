@@ -1,0 +1,21 @@
+@import url('./__text/footer__text.css');
+
+.footer {
+    margin: 66px auto 60px;
+    max-width: 882px;
+    min-height: 18px;
+    color: var(--dark-grey);
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+@media only screen and (max-width: 770px) {
+    .footer {
+        margin: 48px auto 36px;
+        max-width: 282px;
+        min-height: 14px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

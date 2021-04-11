@@ -1,0 +1,7 @@
+.inactive {
+    pointer-events: none;
+    cursor: none;
+    background-color: var(--white);
+    color: var(--dark);
+    opacity: .2;
+}

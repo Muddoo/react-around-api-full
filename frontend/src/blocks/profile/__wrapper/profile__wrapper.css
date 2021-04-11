@@ -1,0 +1,40 @@
+.profile__wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.profile__wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    background-image: url('../../../images/edit-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 26px 26px;
+    opacity: 0;
+    transition: .5s;
+}
+
+.profile__wrapper:hover :first-child {
+    opacity: .3;
+}
+
+.profile__wrapper:hover::after {
+    opacity: 1;
+}
+
+@media only screen and (max-width: 770px) {
+    .profile__wrapper {
+        margin: 0;
+        margin-bottom: 14px;
+    }
+}

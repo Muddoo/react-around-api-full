@@ -1,0 +1,15 @@
+.popup__close_fig {
+    width: 40px;
+    height: 40px;
+    top: -40px;
+    right: -40px;
+}
+
+@media only screen and (max-width: 770px) {
+    .popup__close_fig {
+        width: 25px;
+        height: 25px;
+        top: -40px;
+        right: 0;
+    }
+}

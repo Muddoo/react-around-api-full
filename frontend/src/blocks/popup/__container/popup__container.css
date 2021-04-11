@@ -1,0 +1,12 @@
+.popup__container {
+    position: relative;
+    top: 25px;
+    opacity: var(--opa);
+    transition: all 1s;
+}
+
+@media only screen and (max-width: 570px) {
+    .popup__container {
+        top: 5px;
+    }
+}

@@ -1,0 +1,19 @@
+.card__icon-heart {
+    min-width: 21px;
+    min-height: 18.13px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    outline: 0;
+    background-image: url('../../../images/heartSVG.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+@media only screen and (min-width: 770px) {
+    .card__icon-heart:hover {
+        opacity: .6;
+    }
+}

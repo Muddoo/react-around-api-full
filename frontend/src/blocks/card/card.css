@@ -1,0 +1,19 @@
+@import url('./__image/card__image.css');
+@import url('./__details/card__details.css');
+@import url('./__text/card__text.css');
+@import url('./__icon-heart/card__icon-heart.css');
+@import url('./__icon-delete/card__icon-delete.css');
+@import url('./__icon-heart/_black/card__icon-heart_black.css');
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: var(--white);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 282px 1fr;
+    place-items: center;
+}
