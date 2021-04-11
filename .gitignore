@@ -13,6 +13,7 @@
 # production
 /build
 .netlify
+*.log
 
 # misc
 .DS_Store

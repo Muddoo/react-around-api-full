@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const NotFoundError = require('../Error/NotFoundError');
 
 const schema = new mongoose.Schema({
   name: {
@@ -34,10 +35,10 @@ const schema = new mongoose.Schema({
 schema.statics.ownerId = function isOwner(id) {
   return this.findOne({_id: id})
              .then(card => {
-               if(!card) return Promise.reject(new Error('Not Found'))
+               if(!card) return Promise.reject(new NotFoundError('Card Not Found'))
                return card.owner
              })
-             .catch(err => Promise.reject(err))
+             .catch(err => Promise.reject({ statusCode: err.statusCode || 400, message: err.message }))
 }
 
 module.exports = mongoose.model('card', schema);

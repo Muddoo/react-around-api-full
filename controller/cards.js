@@ -1,49 +1,49 @@
-const cards = require('../models/card');
+const Cards = require('../models/card');
+const NotFoundError = require('../Error/NotFoundError');
+const UnauthorizedError = require('../Error/UnauthorizedError');
 
-const handleError = (res, status = 500, err = 'Internal Server Error') => res.status(status).send({ error: err });
-
-const getCards = (req, res) => {
-  cards.find({})
+const getCards = (req, res, next) => {
+  Cards.find({})
     .populate('likes')
     .then((all) => res.send(all))
-    .catch(() => handleError(res));
+    .catch(next);
 };
 
-const createCard = (req, res) => {
-  cards.create({ ...req.body, owner: req.user._id })
+const createCard = (req, res, next) => {
+  Cards.create({ ...req.body, owner: req.user._id })
     .then((card) => res.send(card))
-    .catch((err) => (err.name === 'ValidationError' ? handleError(res, 400, err.message) : handleError(res)));
+    .catch(next);
 };
 
-const deleteCard = async (req, res) => {
+const deleteCard = async (req, res, next) => {
   try {
-    const ownerId = await cards.ownerId(req.params.cardId);
+    const ownerId = await Cards.ownerId(req.params.cardId);
     return String(ownerId) === req.user._id ?
-        cards.findByIdAndDelete(req.params.cardId)
+        Cards.findByIdAndDelete(req.params.cardId)
           .then(() => res.send({ message: 'Card Deleted' })) :
-        res.status(400).send({error: 'Not Allowed'})
+          next(new UnauthorizedError('User Not Allowed'))
   } catch (err) {
-       err.name === 'Error' ? handleError(res, 404, err.message) : handleError(res, 400, err.message)
+       next(err)
   }
 };
 
-const likeCard = (req, res) => {
-  cards.findByIdAndUpdate(req.params.cardId, {
+const likeCard = (req, res, next) => {
+  Cards.findByIdAndUpdate(req.params.cardId, {
     $addToSet: { likes: req.user._id },
   }, { new: true })
-    .orFail(() => new Error('Not Found'))
+    .orFail(() => new NotFoundError())
     .populate('likes')
     .then((card) => res.send(card))
-    .catch((err) => (err.name ? handleError(res, 400, err.message) : handleError(res)));
+    .catch(next);
 };
 
-const dislikeCard = (req, res) => {
-  cards.findByIdAndUpdate(req.params.cardId, {
+const dislikeCard = (req, res, next) => {
+  Cards.findByIdAndUpdate(req.params.cardId, {
     $pull: { likes: req.user._id },
   }, { new: true })
-    .orFail(() => new Error('Not Found'))
+    .orFail(() => new NotFoundError())
     .then((card) => res.send(card))
-    .catch((err) => (err.name ? handleError(res, 400, err.message) : handleError(res)));
+    .catch(next);
 };
 
 module.exports = {
