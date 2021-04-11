@@ -30,12 +30,14 @@ function App() {
     const [registered,setRegistered] = useState(false); 
     const [isOpenToolTip,setIsOpenToolTip] = useState(false);
     const [email, setEmail] = useState('');
-    const [token,setToken] = useState('')
+    const [token,setToken] = useState('');
+    const [show,setShow] = useState(true)
 
     const history = useHistory()
 
     const api = new Api({
-        baseUrl:'https://boiling-scrubland-25608.herokuapp.com',
+        // baseUrl:'https://boiling-scrubland-25608.herokuapp.com',
+        baseUrl:'http://localhost:3001',
         options: {
           headers: {
             authorization: `Bearer ${token}`,
@@ -77,6 +79,7 @@ function App() {
         setIsOpenToolTip(!isOpenToolTip)
     }
     function handleRegister(password,email) {
+        setShow(false);
         return register(password,email)
             .then(res => {
                 if(res.data)  {
@@ -91,8 +94,10 @@ function App() {
                 toggleToolTip()
             })
             .catch(err => console.log(err))
+            .finally(() => setShow(true))
     }
     function handleAuth(password,email) {
+        setShow(false);
         authorize(password, email)
             .then(({token}) => {
                 if(token) {
@@ -106,6 +111,7 @@ function App() {
                 toggleToolTip()
             })
             .catch(err => console.log(err))
+            .finally(() => setShow(true))
     }
     function handleLogin() {
         setLoggedIn(!loggedIn)
@@ -199,14 +205,16 @@ function App() {
                     <Redirect to='/' /> : 
                     <Login 
                         logo={logo} 
-                        handleAuth={handleAuth} /> }
+                        handleAuth={handleAuth}
+                        show={show} /> }
             </Route>
             <Route path='/signup'>
                 { loggedIn ? 
                     <Redirect to='/' /> : 
                     <Register
                         logo={logo}
-                        handleRegister={handleRegister} /> }
+                        handleRegister={handleRegister}
+                        show={show} /> }
             </Route>
             <ProtectedRoute 
                 path="/" 

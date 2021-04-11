@@ -27,39 +27,43 @@ function Register(props) {
     }
 
     return (
-        <div className='login'>
-            <div className='login__container'>
-                <img draggable="false" src={props.logo} alt="logo" className="logo" />
-                <Link to='/signin' className='login__link'>Log in</Link>
-            </div>
-            <form 
-                action="#" 
-                className='login__form'
-                onSubmit={handleSubmit}
-                >
-                <p className="login__heading">Sign up</p>
-                <input 
-                    type="email" 
-                    name="email" 
-                    placeholder='Email' 
-                    className='login__input' 
-                    value={email}
-                    onChange={handleEmail}
-                    required/>
-                <input 
-                    type="password" 
-                    name="password" 
-                    placeholder='Password' 
-                    className='login__input' 
-                    value={password}
-                    onChange={handlePassword}
-                    minLength={4}
-                    maxLength={12}
-                    required/>
-                <button className="login__submit" type='submit'>Sign up</button>
-                <Link to='/signin' className="login__link login__note">Already a member? Log in here!</Link>
-            </form>
-        </div>
+        <>
+        {props.show ? 
+            <div className='login'>
+                <div className='login__container'>
+                    <img draggable="false" src={props.logo} alt="logo" className="logo" />
+                    <Link to='/signin' className='login__link'>Log in</Link>
+                </div>
+                <form 
+                    action="#" 
+                    className='login__form'
+                    onSubmit={handleSubmit}
+                    >
+                    <p className="login__heading">Sign up</p>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder='Email' 
+                        className='login__input' 
+                        value={email}
+                        onChange={handleEmail}
+                        required/>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        placeholder='Password' 
+                        className='login__input' 
+                        value={password}
+                        onChange={handlePassword}
+                        minLength={4}
+                        maxLength={12}
+                        required/>
+                    <button className="login__submit" type='submit'>Sign up</button>
+                    <Link to='/signin' className="login__link login__note">Already a member? Log in here!</Link>
+                </form>
+            </div> :
+            <div className='spinner' />}
+        </>
     )
 }
 
