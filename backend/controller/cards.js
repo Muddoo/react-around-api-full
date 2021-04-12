@@ -21,7 +21,7 @@ const deleteCard = async (req, res, next) => {
     return String(ownerId) === req.user._id
       ? Cards.findByIdAndDelete(req.params.cardId)
         .then(() => res.send({ message: 'Card Deleted' }))
-      : next({statusCode: 403, message: 'User Not Allowed'});
+      : next({ statusCode: 403, message: 'User Not Allowed' });
   } catch (err) {
     return next(err);
   }

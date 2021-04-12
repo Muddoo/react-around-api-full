@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const { celebrate, Joi, errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./Error/NotFoundError');
-const rateLimit = require("express-rate-limit");
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 require('dotenv').config();
 
@@ -27,16 +27,15 @@ mongoose.connect(DATABASEURL, {
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100
+  max: 100,
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(helmet());
-app.use(limiter);
 app.use(requestLogger);
-
+app.use(limiter);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
